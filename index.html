@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rick and Morty - API</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="logica.js" defer></script>
+</head>
+<body>
+
+  <header class="cabecalho">
+    <div class="logo">
+      <img src="rick-and-morty-fan-art-21epsxojfgawzvot.jpg" alt="Logo Rick and Morty">
+      <h1>Rick and Morty - API</h1>
+    </div>
+
+    <form class="campo" id="formPesquisa">
+      <label for="buscarPersonagem" class="persona">Buscar personagem</label>
+      <input id="buscarPersonagem" type="text" placeholder="Nome do personagem">
+      <button id="btnPesquisar" type="button">Pesquisar</button>
+    </form>
+  </header>
+
+  <main class="conteudo">
+    <h2 id="nomePersonagem">Nome do personagem</h2>
+
+    <section class="card-personagem">
+      <img id="imgPersonagem" src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" alt="Imagem">
+
+      <div class="informacoes">
+        <article class="detalhes">
+          <p id="status">Status:</p>
+          <p id="especies">Espécie:</p>
+          <p id="genero">Gênero:</p>
+          <p id="local">Localização:</p>
+        </article>
+
+        <nav class="botoes">
+          <button id="btnVoltar" type="button">Voltar</button>
+          <button id="btnAvancar" type="button">Avançar</button>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>

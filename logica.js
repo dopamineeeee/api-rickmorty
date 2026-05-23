@@ -1,90 +1,122 @@
-let idAtual = 1;  //Observações do ERIC : Index que o site vai começar (personagem inicial)
+let idAtual = 1;
+const ultimoPersonagem = 826;
 
-
-// Estamos construindo as características do personagem através dos ID's (juntando todas as características obtemos o elemento COMPLETO)
+// ELEMENTOS DO HTML
 const nomePersonagem = document.getElementById("nomePersonagem");
 const imgPersonagem = document.getElementById("imgPersonagem");
 const statusPersonagem = document.getElementById("status");
 const especies = document.getElementById("especies");
-const genero = document.getElementById("genero");
+const genero = document.getElementById("genero");                 //Criamos as peças do nosso personagem que juntos se tornam um elemento
 const localizacao = document.getElementById("local");
-
-// Estamos declarando os botões e campos que iremos utilizar dentro da API
 
 const btnPesquisar = document.getElementById("btnPesquisar");
 const btnVoltar = document.getElementById("btnVoltar");
-const btnAvancar = document.getElementById("btnAvancar");
+const btnAvancar = document.getElementById("btnAvancar");               // botões que vão fazer o usuário navegar entre os personagens
 const buscarPersonagem = document.getElementById("buscarPersonagem");
 
-// Criamos nossa primeira função para "IMPRIMIR o nosso elemento por completo no HTML" utilizando nossas ID's prédefinidas no HTML,
-// Usamos uma função assincrona para dizer que é para o código esperar a página carregar junto o await e depois executar e o fetch faz a requisição
+// FUNÇÃO PARA MOSTRAR O PERSONAGEM NO HTML
+function mostrarPersonagem(personagem) {
+    nomePersonagem.innerText = personagem.name;
+    imgPersonagem.src = personagem.image;                                      //printamos as características do personagem no HTML
+    imgPersonagem.alt = personagem.name;
 
-async function carregarPersonagem(id) {
-    const resposta = await fetch(`https://rickandmortyapi.com/api/character/${id}`); // Aqui pedimos para a função ir na API
-    const personagem = await resposta.json(); // aqui pede para esperar com o await e tranforma nossa requisição em arquivo json
-    nomePersonagem.innerText = personagem.name; //imprime texto
-    imgPersonagem.src = personagem.image; //imprime imagem
-    statusPersonagem.innerText = `Status: ${personagem.status}`; // puxa as características do banco da API
+    statusPersonagem.innerText = `Status: ${personagem.status}`;
     especies.innerText = `Espécie: ${personagem.species}`;
     genero.innerText = `Gênero: ${personagem.gender}`;
     localizacao.innerText = `Localização: ${personagem.location.name}`;
 }
 
+// FUNÇÃO PARA MOSTRAR ERRO NO HTML
+function mostrarErro(mensagem) {
+    nomePersonagem.innerText = "Erro";
+    imgPersonagem.src = "";
+    imgPersonagem.alt = "";
+                                                        
+    statusPersonagem.innerText = mensagem;
+    especies.innerText = "";
+    genero.innerText = "";
+    localizacao.innerText = "";
+}
+
+// BUSCAR PERSONAGEM PELO ID
+async function carregarPersonagem(id) {
+    try {
+        const resposta = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
+
+        if (!resposta.ok) {
+            throw new Error("Personagem não encontrado pelo ID");
+        }
+
+        const personagem = await resposta.json();
+
+        idAtual = personagem.id;
+        mostrarPersonagem(personagem);
+
+    } catch (erro) {
+        mostrarErro(erro.message);
+    }
+}
+
+// BUSCAR PERSONAGEM PELO NOME
+async function buscarPersonagemPorNome() {
+    const valorDigitado = buscarPersonagem.value.trim();
+
+    if (valorDigitado === "") {
+        mostrarErro("Digite o nome ou ID de um personagem");
+        return;
+    }
+
+    // Se o usuário digitou número, busca por ID
+    if (!isNaN(valorDigitado)) {
+        carregarPersonagem(Number(valorDigitado));
+        return;
+    }
+
+    // Se digitou texto, busca por nome
+    try {
+        const resposta = await fetch(
+            `https://rickandmortyapi.com/api/character/?name=${valorDigitado}`
+        );
+
+        if (!resposta.ok) {
+            throw new Error("Personagem não encontrado");
+        }
+
+        const dados = await resposta.json();
+        const personagem = dados.results[0];
+
+        idAtual = personagem.id;
+        mostrarPersonagem(personagem);
+
+    } catch (erro) {
+        mostrarErro(erro.message);
+    }
+}
+
+// BOTÃO AVANÇAR
 btnAvancar.addEventListener("click", () => {
-
-    if (idAtual === 826) {                          //aqui diz que caso o index esteja no último é para ele ir para o primeiro
-
-        idAtual = 1;                                // estamos adicionando um ouvindo que pega o movimento CLICK do botão avançar
-                                                    // e pula +1 do index
-
+    if (idAtual === ultimoPersonagem) {
+        idAtual = 1;
     } else {
-
         idAtual++;
     }
 
-    carregarPersonagem(idAtual);                       // carrega nosso elemento criado acima
+    carregarPersonagem(idAtual);
 });
 
+// BOTÃO VOLTAR
 btnVoltar.addEventListener("click", () => {
-
-   
-    if (idAtual === 1) {                            //aqui é o inverso do acima, se ele estiver no index 1 voltar para o último
-
-        
-        idAtual = 826;
-
+    if (idAtual === 1) {
+        idAtual = ultimoPersonagem;
     } else {
-
-        
         idAtual--;
     }
 
     carregarPersonagem(idAtual);
 });
 
-btnPesquisar.addEventListener("click", async () => {
-    const nomeDigitado = buscarPersonagem.value;            // criamos uma const para receber o valor digitado no input
+// BOTÃO PESQUISAR
+btnPesquisar.addEventListener("click", buscarPersonagemPorNome);
 
-    const resposta = await fetch(
-        `https://rickandmortyapi.com/api/character/?name=${nomeDigitado}`  //js faz a requisição para a API o /?name= ele está colocando o valor digitado
-    );
-
-    const dados = await resposta.json();  // transforma os dados obtidos em json e coloca dentro da variável
-
-    if (dados.results) {                                
-        const personagem = dados.results[0];            //joga o resultado no campo criado idAtual e mostra ele colocando nosso elemento por completo
-        idAtual = personagem.id;
-
-        nomePersonagem.innerText = personagem.name;                     //fizemos uma condição que fala se encontrar o ID mostrar elemento se não "Personagem não encontrado"
-        imgPersonagem.src = personagem.image;
-        
-        statusPersonagem.innerText = `Status: ${personagem.status}`;
-        especies.innerText = `Espécie: ${personagem.species}`;
-        genero.innerText = `Gênero: ${personagem.gender}`;
-        localizacao.innerText = `Localização: ${personagem.location.name}`;
-    } else {
-        nomePersonagem.innerText = "Personagem não encontrado";
-    }
-});
-
+// CARREGA O PRIMEIRO PERSONAGEM AO ABRIR A PÁGINA
 carregarPersonagem(idAtual);

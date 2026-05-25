@@ -30,7 +30,7 @@ function mostrarPersonagem(personagem) {
 function mostrarErro(mensagem) {
     nomePersonagem.innerText = "Erro ❌​​";
     imgPersonagem.src = "/IMG/03151121886116 (1).png"; 
-    imgPersonagem.alt = "Imagem de erro";
+    imgPersonagem.alt = "Imagem de erro";                                       //Todos os campos mensagem vão disparar a mensagem de erro.
                                                         
     statusPersonagem.innerText = "";
     especies.innerText = mensagem;
@@ -41,13 +41,13 @@ function mostrarErro(mensagem) {
 // BUSCAR PERSONAGEM PELO ID
 async function carregarPersonagem(id) {
     try {
-        const resposta = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
+        const resposta = await fetch(`https://rickandmortyapi.com/api/character/${id}`);  // puxamos o resultado da API usando o fecth.
 
         if (!resposta.ok) {
-            throw new Error("ID incorreto. ❌​ Tente novamente");
-        }
+            throw new Error("ID incorreto. ❌​ Tente novamente");                       //Aqui executa a função carregarPersonagem, que já vem com tratamento de erro para
+        }                                                                               // parametro 200 404,
 
-        const personagem = await resposta.json();
+        const personagem = await resposta.json();                                       //Pedmis para pegar o resultado e converter em json
 
         idAtual = personagem.id;
         mostrarPersonagem(personagem);
@@ -57,16 +57,13 @@ async function carregarPersonagem(id) {
         
     }
 
-    finally {
-        buscarPersonagem.value = "";
-        
-    }
+   
 
 }
 
 // BUSCAR PERSONAGEM PELO NOME
 async function buscarPersonagemPorNome() {
-    const valorDigitado = buscarPersonagem.value.trim();
+    const valorDigitado = buscarPersonagem.value.trim();      //estamos tratando o valor tirando espaço do inicio e do fim, para evitar erros de busca por nome.
 
     if (valorDigitado === "") {
         mostrarErro("Digite o nome/ID do personagem");
@@ -74,8 +71,8 @@ async function buscarPersonagemPorNome() {
     }
 
     // Se o usuário digitou número, busca por ID
-    if (!isNaN(valorDigitado)) {
-        carregarPersonagem(Number(valorDigitado));
+    if (!isNaN(valorDigitado)) {                                        // aqui o isNaN é para verificar se é um número, o ! é para caso seja número, ele trás resultado false.
+        carregarPersonagem(Number(valorDigitado));                      //se for número, ele converte o valor de string para number e chama a função.
         return;
     }
 

@@ -96,9 +96,9 @@ https://rickandmortyapi.com/
 api-rickmorty/
 │
 ├── index.html
-├── style.css
-├── logica.js
-└── imagens
+├── CSS/style.css
+├── JS/logica.js
+└── IMG/imagens
 ```
 
 ---

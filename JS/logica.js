@@ -28,13 +28,13 @@ function mostrarPersonagem(personagem) {
 
 // FUNÇÃO PARA MOSTRAR ERRO NO HTML
 function mostrarErro(mensagem) {
-    nomePersonagem.innerText = "Erro";
-    imgPersonagem.src = "";
-    imgPersonagem.alt = "";
+    nomePersonagem.innerText = "Erro ❌​​";
+    imgPersonagem.src = "/IMG/03151121886116 (1).png"; 
+    imgPersonagem.alt = "Imagem de erro";
                                                         
-    statusPersonagem.innerText = mensagem;
-    especies.innerText = "";
-    genero.innerText = "";
+    statusPersonagem.innerText = "";
+    especies.innerText = mensagem;
+    genero.innerText = mensagem;
     localizacao.innerText = "";
 }
 
@@ -44,7 +44,7 @@ async function carregarPersonagem(id) {
         const resposta = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
 
         if (!resposta.ok) {
-            throw new Error("Personagem não encontrado pelo ID");
+            throw new Error("ID incorreto. ❌​ Tente novamente");
         }
 
         const personagem = await resposta.json();
@@ -54,7 +54,14 @@ async function carregarPersonagem(id) {
 
     } catch (erro) {
         mostrarErro(erro.message);
+        
     }
+
+    finally {
+        buscarPersonagem.value = "";
+        
+    }
+
 }
 
 // BUSCAR PERSONAGEM PELO NOME
@@ -62,7 +69,7 @@ async function buscarPersonagemPorNome() {
     const valorDigitado = buscarPersonagem.value.trim();
 
     if (valorDigitado === "") {
-        mostrarErro("Digite o nome ou ID de um personagem");
+        mostrarErro("Digite o nome/ID do personagem");
         return;
     }
 

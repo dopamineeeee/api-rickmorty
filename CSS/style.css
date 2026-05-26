@@ -22,7 +22,7 @@ body {
   justify-content: space-between;
   gap: 24px;
   flex-wrap: wrap;
-  background-image: url('/IMG/ModuleImage.FP_Header_2025xxxx_RickAndMorty_desktop.3a363312dae24e4db7f977570d933be1.jpg');
+  background-image: url('./IMG/ModuleImage.FP_Header_2025xxxx_RickAndMorty_desktop.3a363312dae24e4db7f977570d933be1.jpg');
   background-size: cover;
   background-position: center;
 }

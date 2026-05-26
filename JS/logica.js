@@ -30,7 +30,7 @@ function mostrarPersonagem(personagem) {
 // FUNÇÃO PARA MOSTRAR ERRO NO HTML
 function mostrarErro(mensagem) {
     nomePersonagem.innerText = "❌​ Erro na Busca";
-    imgPersonagem.src = "/IMG/03151121886116 (1).png"; 
+    imgPersonagem.src = "./IMG/03151121886116 (1).png"; 
     imgPersonagem.alt = "Imagem de erro";                                       //Todos os campos mensagem vão disparar a mensagem de erro.
                                                         
     statusPersonagem.innerText = "";

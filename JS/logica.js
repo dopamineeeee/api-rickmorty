@@ -124,3 +124,4 @@ btnPesquisar.addEventListener("click", buscarPersonagemPorNome);
 
 // CARREGA O PRIMEIRO PERSONAGEM AO ABRIR A PÁGINA
 carregarPersonagem(idAtual);
+

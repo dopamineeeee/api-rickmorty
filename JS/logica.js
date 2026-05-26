@@ -16,7 +16,7 @@ const buscarPersonagem = document.getElementById("buscarPersonagem");
 
 // FUNÇÃO PARA MOSTRAR O PERSONAGEM NO HTML
 function mostrarPersonagem(personagem) {
-    nomePersonagem.innerText = personagem.name;
+    nomePersonagem.innerText = (" ◼️ ​​")+personagem.name;
     imgPersonagem.src = personagem.image;                                      //printamos as características do personagem no HTML
     imgPersonagem.alt = personagem.name;
 
@@ -28,7 +28,7 @@ function mostrarPersonagem(personagem) {
 
 // FUNÇÃO PARA MOSTRAR ERRO NO HTML
 function mostrarErro(mensagem) {
-    nomePersonagem.innerText = "Erro ❌​​";
+    nomePersonagem.innerText = "❌​ Erro na Busca";
     imgPersonagem.src = "/IMG/03151121886116 (1).png"; 
     imgPersonagem.alt = "Imagem de erro";                                       //Todos os campos mensagem vão disparar a mensagem de erro.
                                                         
@@ -44,7 +44,7 @@ async function carregarPersonagem(id) {
         const resposta = await fetch(`https://rickandmortyapi.com/api/character/${id}`);  // puxamos o resultado da API usando o fecth.
 
         if (!resposta.ok) {
-            throw new Error("ID incorreto. ❌​ Tente novamente");                       //Aqui executa a função carregarPersonagem, que já vem com tratamento de erro para
+            throw new Error("❌​ ID incorreto.Tente novamente");                       //Aqui executa a função carregarPersonagem, que já vem com tratamento de erro para
         }                                                                               // parametro 200 404,
 
         const personagem = await resposta.json();                                       //Pedmis para pegar o resultado e converter em json
@@ -66,7 +66,7 @@ async function buscarPersonagemPorNome() {
     const valorDigitado = buscarPersonagem.value.trim();      //estamos tratando o valor tirando espaço do inicio e do fim, para evitar erros de busca por nome.
 
     if (valorDigitado === "") {
-        mostrarErro("Digite o nome/ID do personagem");
+        mostrarErro("❌​ Digite o Nome/ID do Personagem");
         return;
     }
 
@@ -83,7 +83,7 @@ async function buscarPersonagemPorNome() {
         );
 
         if (!resposta.ok) {
-            throw new Error("Personagem não encontrado");
+            throw new Error("❌​ Personagem Não Encontrado");
         }
 
         const dados = await resposta.json();

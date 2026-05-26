@@ -148,10 +148,10 @@ button:hover {
 }
 
 
-@media (max-width: 600px) {
+@media (max-width: 600px) {                   
   .cabecalho {
     justify-content: center;
-    text-align: center;
+    text-align: center;                        
     padding: 20px;
   }
 

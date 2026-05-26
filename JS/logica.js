@@ -13,6 +13,7 @@ const btnPesquisar = document.getElementById("btnPesquisar");
 const btnVoltar = document.getElementById("btnVoltar");
 const btnAvancar = document.getElementById("btnAvancar");               // botões que vão fazer o usuário navegar entre os personagens
 const buscarPersonagem = document.getElementById("buscarPersonagem");
+const formPesquisa = document.getElementById("formPesquisa");
 
 // FUNÇÃO PARA MOSTRAR O PERSONAGEM NO HTML
 function mostrarPersonagem(personagem) {
@@ -42,7 +43,7 @@ function mostrarErro(mensagem) {
 async function carregarPersonagem(id) {
     try {
         const resposta = await fetch(`https://rickandmortyapi.com/api/character/${id}`);  // puxamos o resultado da API usando o fecth.
-
+        console.log(resposta);
         if (!resposta.ok) {
             throw new Error("❌​ ID incorreto.Tente novamente");                       //Aqui executa a função carregarPersonagem, que já vem com tratamento de erro para
         }                                                                               // parametro 200 404,
@@ -53,6 +54,12 @@ async function carregarPersonagem(id) {
         mostrarPersonagem(personagem);
 
     } catch (erro) {
+
+        if (erro.message === "Failed to fetch") {
+            mostrarErro("❌​ Falha na Conexão.");
+            return;
+        }
+
         mostrarErro(erro.message);
         
     }
@@ -82,6 +89,8 @@ async function buscarPersonagemPorNome() {
             `https://rickandmortyapi.com/api/character/?name=${valorDigitado}`
         );
 
+        console.log(resposta);
+
         if (!resposta.ok) {
             throw new Error("❌​ Personagem Não Encontrado");
         }
@@ -93,6 +102,12 @@ async function buscarPersonagemPorNome() {
         mostrarPersonagem(personagem);
 
     } catch (erro) {
+
+        if (erro.message === "Failed to fetch") {
+            mostrarErro("❌​ Falha na Conexão.");
+            return;
+        }
+
         mostrarErro(erro.message);
     }
 }
@@ -124,4 +139,9 @@ btnPesquisar.addEventListener("click", buscarPersonagemPorNome);
 
 // CARREGA O PRIMEIRO PERSONAGEM AO ABRIR A PÁGINA
 carregarPersonagem(idAtual);
+
+formPesquisa.addEventListener("submit", (event) => {
+    event.preventDefault(); // Evita o comportamento padrão de recarregar a página ao enviar o formulário
+    buscarPersonagemPorNome(); // Chama a função de busca quando o formulário é enviado
+});
 
